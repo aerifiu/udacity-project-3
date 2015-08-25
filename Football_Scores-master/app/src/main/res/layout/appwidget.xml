@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	android:id="@+id/appwidget_layout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_margin="8dip"
+	android:background="@drawable/appwidget_bg"
+	android:orientation="vertical"
+	android:padding="8dip">
+
+	<RelativeLayout
+		android:id="@+id/appwidget_match1"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1">
+
+		<TextView
+			android:id="@+id/appwidget_start_time1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:contentDescription="@string/dscr_time"
+			android:textColor="@color/text_widget"
+			android:textSize="12sp"
+			android:textStyle="italic"
+			tools:text="20:40"/>
+
+		<TextView
+			android:id="@+id/appwidget_score1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_below="@+id/appwidget_start_time1"
+			android:contentDescription="@string/dscr_score"
+			android:gravity="center_horizontal"
+			android:textColor="@color/text_widget"
+			android:textSize="18sp"
+			tools:text="2:3"/>
+
+		<TextView
+			android:id="@+id/appwidget_home1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/appwidget_start_time1"
+			android:contentDescription="@string/dscr_home_team"
+			android:maxLength="16"
+			android:textColor="@color/text_widget"
+			android:textSize="18sp"
+			tools:text="Admira Schalke"/>
+
+		<TextView
+			android:id="@+id/appwidget_away1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_below="@+id/appwidget_start_time1"
+			android:contentDescription="@string/dscr_away_team"
+			android:maxLength="16"
+			android:textColor="@color/text_widget"
+			android:textSize="18sp"
+			tools:text="HSB Stift"/>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/appwidget_match2"
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="1">
+
+		<TextView
+			android:id="@+id/appwidget_start_time2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:contentDescription="@string/dscr_time"
+			android:textColor="@color/text_widget"
+			android:textSize="12sp"
+			android:textStyle="italic"
+			tools:text="20:40"/>
+
+		<TextView
+			android:id="@+id/appwidget_score2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_below="@+id/appwidget_start_time2"
+			android:contentDescription="@string/dscr_score"
+			android:gravity="center_horizontal"
+			android:textColor="@color/text_widget"
+			android:textSize="18sp"
+			tools:text="2:3"/>
+
+		<TextView
+			android:id="@+id/appwidget_home2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/appwidget_start_time2"
+			android:contentDescription="@string/dscr_home_team"
+			android:maxLength="16"
+			android:textColor="@color/text_widget"
+			android:textSize="18sp"
+			tools:text="FC Holzbein"/>
+
+		<TextView
+			android:id="@+id/appwidget_away2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_below="@+id/appwidget_start_time2"
+			android:contentDescription="@string/dscr_away_team"
+			android:maxLength="16"
+			android:textColor="@color/text_widget"
+			android:textSize="18sp"
+			tools:text="FCB Ojeoje"/>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/appwidget_match3"
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="1">
+
+		<TextView
+			android:id="@+id/appwidget_start_time3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:contentDescription="@string/dscr_time"
+			android:textColor="@color/text_widget"
+			android:textSize="12sp"
+			android:textStyle="italic"
+			tools:text="20:40"/>
+
+		<TextView
+			android:id="@+id/appwidget_score3"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_below="@+id/appwidget_start_time3"
+			android:contentDescription="@string/dscr_score"
+			android:gravity="center_horizontal"
+			android:textColor="@color/text_widget"
+			android:textSize="18sp"
+			tools:text="2:3"/>
+
+		<TextView
+			android:id="@+id/appwidget_home3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/appwidget_start_time3"
+			android:contentDescription="@string/dscr_home_team"
+			android:maxLength="16"
+			android:textColor="@color/text_widget"
+			android:textSize="18sp"
+			tools:text="HSB Volltreffer"/>
+
+		<TextView
+			android:id="@+id/appwidget_away3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_below="@+id/appwidget_start_time3"
+			android:contentDescription="@string/dscr_away_team"
+			android:maxLength="16"
+			android:textColor="@color/text_widget"
+			android:textSize="18sp"
+			tools:text="HSB Schwalbe"/>
+	</RelativeLayout>
+</LinearLayout>
