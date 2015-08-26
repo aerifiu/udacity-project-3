@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
@@ -27,7 +28,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 	private static final String TAG = "INTENT_TO_SCAN_ACTIVITY";
 	private static final int REQUEST_CODE = 2;
 	private EditText ean;
-	private String oldText;
+	private String currentEan;
 	private final int LOADER_ID = 1;
 	private View rootView;
 	private final String EAN_CONTENT = "eanContent";
@@ -72,13 +73,16 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 				//catch isbn10 numbers
 				if (ean.length() == 10 && !ean.startsWith("978")) {
 					ean = "978" + ean;
-				}
 
-				if (ean.equals(oldText)) {
+				} else if (ean.length() < 13) {
 					return;
 				}
 
-				oldText = ean;
+				if (ean.equals(currentEan)) {
+					return;
+				}
+
+				currentEan = ean;
 
 				//Once we have an ISBN, start a book intent
 				Intent bookIntent = new Intent(getActivity(), BookService.class);
@@ -135,27 +139,29 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 				// set as ean which will trigger the listener
 				if (!TextUtils.isEmpty(contents)) {
 					ean.setText(contents);
+				} else {
+					Toast.makeText(getActivity(), getString(R.string.code_invalid), Toast.LENGTH_LONG).show();
 				}
 			}
 		}
 	}
 
 	private void restartLoader() {
-		getLoaderManager().restartLoader(LOADER_ID, null, this);
+		try {
+			if (!getActivity().isFinishing()) {
+				getLoaderManager().restartLoader(LOADER_ID, null, this);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		if (ean.getText().length() == 0) {
-			return null;
-		}
-		String eanStr = ean.getText().toString();
-		if (eanStr.length() == 10 && !eanStr.startsWith("978")) {
-			eanStr = "978" + eanStr;
-		}
 		return new CursorLoader(
 				getActivity(),
-				AlexandriaContract.BookEntry.buildFullBookUri(Long.parseLong(eanStr)),
+				AlexandriaContract.BookEntry.buildFullBookUri(Long.parseLong(currentEan == null ? "" : currentEan)),
 				null,
 				null,
 				null,
