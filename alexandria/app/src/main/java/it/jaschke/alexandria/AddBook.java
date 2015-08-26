@@ -208,13 +208,15 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 	}
 
 	private void clearFields() {
-		((TextView) rootView.findViewById(R.id.bookTitle)).setText("");
-		((TextView) rootView.findViewById(R.id.bookSubTitle)).setText("");
-		((TextView) rootView.findViewById(R.id.authors)).setText("");
-		((TextView) rootView.findViewById(R.id.categories)).setText("");
-		rootView.findViewById(R.id.bookCover).setVisibility(View.INVISIBLE);
-		rootView.findViewById(R.id.save_button).setVisibility(View.INVISIBLE);
-		rootView.findViewById(R.id.delete_button).setVisibility(View.INVISIBLE);
+		if (rootView != null) {
+			((TextView) rootView.findViewById(R.id.bookTitle)).setText("");
+			((TextView) rootView.findViewById(R.id.bookSubTitle)).setText("");
+			((TextView) rootView.findViewById(R.id.authors)).setText("");
+			((TextView) rootView.findViewById(R.id.categories)).setText("");
+			rootView.findViewById(R.id.bookCover).setVisibility(View.INVISIBLE);
+			rootView.findViewById(R.id.save_button).setVisibility(View.INVISIBLE);
+			rootView.findViewById(R.id.delete_button).setVisibility(View.INVISIBLE);
+		}
 	}
 
 	@Override
