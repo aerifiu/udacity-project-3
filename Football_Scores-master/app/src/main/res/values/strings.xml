@@ -44,5 +44,7 @@
 
         During the off season, fake data will be added to the app.
     </string>
+	<string name="no_matches">Currently no matches</string>
+	<string name="dscr_no_matches">Currently no matches</string>
 
 </resources>

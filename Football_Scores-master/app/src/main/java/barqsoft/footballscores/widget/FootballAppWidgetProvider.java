@@ -13,6 +13,7 @@ import android.widget.RemoteViews;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import barqsoft.footballscores.DatabaseContract;
@@ -27,6 +28,7 @@ public class FootballAppWidgetProvider extends AppWidgetProvider {
 
 	public static final String IS_WIDGET_ACTIVE = "prefIsWidgetActive";
 	public static String ACTION_START_APP = "actionStartApp";
+	private static final int MATCH_LENGTH = 45 + 15 + 45 + 5;
 
 	private static class Score {
 
@@ -118,45 +120,65 @@ public class FootballAppWidgetProvider extends AppWidgetProvider {
 		int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(context, FootballAppWidgetProvider.class));
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.appwidget);
 
-		// filter old games
+		List<Score> widgetScores = new ArrayList<>(3);
+
+		// filter games
 		for (Score score : scores) {
 			String[] tkn = score.time.split(":");
-			int startHour = Integer.parseInt(tkn[0]);
-			int startMin = Integer.parseInt(tkn[1]);
+			final int startHour = Integer.parseInt(tkn[0]);
+			final int startMin = Integer.parseInt(tkn[1]);
 
 			// show the most recent
-			if (hour * 60 + minute > (startHour * 60 + startMin) + 180) {
-				scores.remove(score);
+			final int currentTimeMin = hour * 60 + minute;
+			final int matchTimeMin = startHour * 60 + startMin;
+
+			if (currentTimeMin < matchTimeMin + MATCH_LENGTH) {
+				widgetScores.add(score);
+				if (widgetScores.size() == 3) {
+					break;
+				}
 			}
 		}
+
+		// sort by ASC
+		Collections.reverse(widgetScores);
 
 		remoteViews.setViewVisibility(R.id.appwidget_match1, View.GONE);
 		remoteViews.setViewVisibility(R.id.appwidget_match2, View.GONE);
 		remoteViews.setViewVisibility(R.id.appwidget_match3, View.GONE);
 
-		final int size = Math.min(scores.size(), 3);
-		int index = size - 1;
-		switch (size) {
-		case 3:
-			remoteViews.setTextViewText(R.id.appwidget_start_time1, scores.get(index).time);
-			remoteViews.setTextViewText(R.id.appwidget_home1, scores.get(index).homeName);
-			remoteViews.setTextViewText(R.id.appwidget_away1, scores.get(index).awayName);
-			remoteViews.setTextViewText(R.id.appwidget_score1, scores.get(index).score);
-			remoteViews.setViewVisibility(R.id.appwidget_match1, View.VISIBLE);
-			index--;
-		case 2:
-			remoteViews.setTextViewText(R.id.appwidget_start_time2, scores.get(index).time);
-			remoteViews.setTextViewText(R.id.appwidget_home2, scores.get(index).homeName);
-			remoteViews.setTextViewText(R.id.appwidget_away2, scores.get(index).awayName);
-			remoteViews.setTextViewText(R.id.appwidget_score2, scores.get(index).score);
-			remoteViews.setViewVisibility(R.id.appwidget_match2, View.VISIBLE);
-			index--;
-		case 1:
-			remoteViews.setTextViewText(R.id.appwidget_start_time3, scores.get(index).time);
-			remoteViews.setTextViewText(R.id.appwidget_home3, scores.get(index).homeName);
-			remoteViews.setTextViewText(R.id.appwidget_away3, scores.get(index).awayName);
-			remoteViews.setTextViewText(R.id.appwidget_score3, scores.get(index).score);
-			remoteViews.setViewVisibility(R.id.appwidget_match3, View.VISIBLE);
+		if (widgetScores.isEmpty()) {
+			// currently no games
+			remoteViews.setViewVisibility(R.id.appwidget_no_match, View.VISIBLE);
+
+		} else {
+			// set game data
+			remoteViews.setViewVisibility(R.id.appwidget_no_match, View.GONE);
+
+			final int size = widgetScores.size();
+			int index = size - 1;
+			switch (size) {
+			case 3:
+				remoteViews.setTextViewText(R.id.appwidget_start_time1, widgetScores.get(index).time);
+				remoteViews.setTextViewText(R.id.appwidget_home1, widgetScores.get(index).homeName);
+				remoteViews.setTextViewText(R.id.appwidget_away1, widgetScores.get(index).awayName);
+				remoteViews.setTextViewText(R.id.appwidget_score1, widgetScores.get(index).score);
+				remoteViews.setViewVisibility(R.id.appwidget_match1, View.VISIBLE);
+				index--;
+			case 2:
+				remoteViews.setTextViewText(R.id.appwidget_start_time2, widgetScores.get(index).time);
+				remoteViews.setTextViewText(R.id.appwidget_home2, widgetScores.get(index).homeName);
+				remoteViews.setTextViewText(R.id.appwidget_away2, widgetScores.get(index).awayName);
+				remoteViews.setTextViewText(R.id.appwidget_score2, widgetScores.get(index).score);
+				remoteViews.setViewVisibility(R.id.appwidget_match2, View.VISIBLE);
+				index--;
+			case 1:
+				remoteViews.setTextViewText(R.id.appwidget_start_time3, widgetScores.get(index).time);
+				remoteViews.setTextViewText(R.id.appwidget_home3, widgetScores.get(index).homeName);
+				remoteViews.setTextViewText(R.id.appwidget_away3, widgetScores.get(index).awayName);
+				remoteViews.setTextViewText(R.id.appwidget_score3, widgetScores.get(index).score);
+				remoteViews.setViewVisibility(R.id.appwidget_match3, View.VISIBLE);
+			}
 		}
 
 		Intent intent = new Intent(context, FootballAppWidgetProvider.class);
