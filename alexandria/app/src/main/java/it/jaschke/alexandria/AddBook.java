@@ -46,6 +46,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 		if (ean != null) {
 			outState.putString(EAN_CONTENT, ean.getText().toString());
 		}
+		clearFields();
 	}
 
 	@Override
@@ -78,11 +79,6 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 				}
 
 				oldText = ean;
-
-				if (ean.length() < 13) {
-					clearFields();
-					return;
-				}
 
 				//Once we have an ISBN, start a book intent
 				Intent bookIntent = new Intent(getActivity(), BookService.class);
